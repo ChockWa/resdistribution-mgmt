@@ -25,7 +25,7 @@
           <span class="btn-bell-badge" v-if="message"></span>
         </div> -->
         <!-- 用户名下拉菜单 -->
-        <!-- <el-dropdown class="avatar-container" trigger="click">
+        <el-dropdown class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img
               src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3266090804,66355162&fm=26&gp=0.jpg"
@@ -42,7 +42,7 @@
               <span style="display:block;" @click="logout">{{$t('header.logout')}}</span>
             </el-dropdown-item>
           </el-dropdown-menu>
-        </el-dropdown> -->
+        </el-dropdown>
       </div>
     </div>
   </div>
