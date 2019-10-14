@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '../store/store'
+// import store from '../store'
 import NProgress from 'nprogress' //进度条
 import 'nprogress/nprogress.css'
 Vue.use(Router)
@@ -17,6 +17,26 @@ const myRouter = new Router({
             path: '/',
             redirect: '/login',
             component: getComponent('login', 'index')
+        },
+        {
+            path: '/wechatList',
+            name: 'wechatList',
+            component: getComponent('wechat.list', 'index')
+        },
+        {
+            path: '/importLog',
+            name: 'importLog',
+            component: getComponent('import.log', 'index')
+        },
+        {
+            path: '/wechatReceive',
+            name: 'wechatReceive',
+            component: getComponent('wechat.receive', 'index')
+        },
+        {
+            path: '/distributionRule',
+            name: 'distributionRule',
+            component: getComponent('distribution.rule', 'index')
         },
         {
             path: '/home',
@@ -145,17 +165,17 @@ const myRouter = new Router({
 //判断是否存在token
 myRouter.beforeEach((to, from, next) => {
     NProgress.start()
-    if (to.path !== '/login' && !store.state.token) {
-        next('/login')
-        NProgress.done() // 结束Progress
-    } else {
-        next();
-    }
-    if (to.meta.roles) {
-        to.meta.roles.includes(...store.getters.roles) ? next() : next('/404')
-    } else {
-        next();
-    }
+    // if (to.path !== '/login' && !store.state.token) {
+    //     next('/login')
+    //     NProgress.done() // 结束Progress
+    // } else {
+    //     next();
+    // }
+    // if (to.meta.roles) {
+    //     to.meta.roles.includes(...store.getters.getRoles) ? next() : next('/404')
+    // } else {
+    //     next();
+    // }
 })
 
 myRouter.afterEach(() => {

@@ -3,8 +3,8 @@ import router from "../router/router";
 import {
     Loading
 } from "element-ui";
-import {messages} from '../assets/js/common.js'
-import store from '../store/store'
+import { messages } from '../assets/js/common.js'
+import store from '../store'
 axios.defaults.timeout = 60000;
 axios.defaults.baseURL = process.env.VUE_APP_LOGOUT_URL;
 axios.defaults.headers.post["Content-Type"] =
@@ -20,9 +20,12 @@ axios.interceptors.request.use(
             text: "正在加载中......",
             fullscreen: true
         });
-        if (store.state.token) {
-            config.headers["Authorization"] = "Bearer " + store.state.token;
+        if (store.getters.getToken === '') {
+            if (localStorage.getItem('resToken')) {
+                store.dispatch('setToken', localStorage.getItem('resToken'))
+            }
         }
+        config.headers['resToken'] = store.getters.getToken
         return config;
     },
     error => {
@@ -41,9 +44,15 @@ axios.interceptors.response.use(
                 loading.close();
             }
             const res = response.data;
-            if (res.err_code === 0) {
+            if (res.code === 0) {
                 resolve(res)
-            } else{
+            } else if (res.code === 1000) {
+                messages("error", "会话已过期，请重新登录");
+                setTimeout(() => {
+                    store.dispatch('removeToken')
+                    router.replace({ path: '/login' })
+                }, 1000);
+            } else {
                 reject(res)
             }
         })
@@ -77,21 +86,6 @@ axios.interceptors.response.use(
                     "error",
                     "未找到远程服务器"
                 );
-                break;
-            case 401:
-                messages("warning", "用户登陆过期，请重新登陆");
-                store.state.commit('COMMIT_TOKEN','')
-                setTimeout(() => {
-                    router.replace({
-                        path: "/login",
-                        query: {
-                            redirect: router.currentRoute.fullPath
-                        }
-                    });
-                }, 1000);
-                break;
-            case 400:
-                messages("error", "数据异常，详情请咨询聚保服务热线");
                 break;
             default:
                 messages("error", error.response.data.message);

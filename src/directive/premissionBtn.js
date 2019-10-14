@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import store from '@/store/store'
+import store from '@/store'
  Vue.directive('allowed', {
     inserted: function (el, bingding) {
-        let roles = store.getters.roles
+        let roles = store.getters.getRoles
         //判断权限
         if (Array.isArray(roles) && roles.length > 0) {
             let allow = bingding.value.some(item => {

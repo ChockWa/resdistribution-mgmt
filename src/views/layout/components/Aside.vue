@@ -7,7 +7,6 @@
         @open="handleOpen"
         @close="handleClose"
         :collapse="isCollapse"
-        @select="select"
         active-text-color="#bdb7ff"
         router
       >
@@ -73,7 +72,7 @@ export default {
     },
     ...mapState(["isCollapse"]),
     items() {
-      let items = this.filterMenus(menu, this.$store.state.roles);
+      let items = this.filterMenus(menu, this.$store.state.getRoles);
       return items;
     }
   },
@@ -113,17 +112,17 @@ export default {
         }
       });
       return res;
-    },
-    select(index, indexPath) {
-      console.log(index, indexPath);
-      if (indexPath.indexOf("home") > -1) return;
-      if (index!==null) {
-        let breadList = ["home"];
-        breadList.push(...indexPath);
-        console.log(breadList);
-        this.$store.commit("SET_BREAD", breadList);
-      }
     }
+    // select(index, indexPath) {
+    //   console.log(index, indexPath);
+    //   if (indexPath.indexOf("home") > -1) return;
+    //   if (index!==null) {
+    //     let breadList = ["home"];
+    //     breadList.push(...indexPath);
+    //     console.log(breadList);
+    //     this.$store.commit("SET_BREAD", breadList);
+    //   }
+    // }
   }
 };
 </script>

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
-import store from '@/store/store'
+// import store from '@/store'
 import elEn from "element-ui/lib/locale/lang/en";
 import elZh from "element-ui/lib/locale/lang/zh-CN";
 import zh from "./zh";
@@ -19,7 +19,8 @@ const messages = {
   }
 };
 const i18n = new VueI18n({
-  locale: store.state.lang,
+  // locale: store.state.lang,
+  locale: "zh-CN",
   messages
 });
 

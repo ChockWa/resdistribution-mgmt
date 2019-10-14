@@ -2,7 +2,7 @@
   <div class="head-container clearfix">
     <div class="header-left">
       <showAside :toggle-click="toggleClick"/>
-      <breadcrumb />
+      <!-- <breadcrumb /> -->
     </div>
     
     <div class="header-right">
@@ -50,13 +50,13 @@
 <script>
 import showAside from "./showAside";
 import selectLang from './selectLang'
-import breadcrumb from './Breadcrumb'
+// import breadcrumb from './Breadcrumb'
 export default {
   // name:'header',
   components: {
     showAside,
-    selectLang,
-    breadcrumb
+    selectLang
+    // breadcrumb
   },
   data() {
     return {
@@ -83,7 +83,7 @@ export default {
     // 用户名下拉菜单选择事件
     logout(command) {
       this.$store.commit('TAGES_LIST',[])
-      this.$store.commit('SET_BREAD',['home'])
+      // this.$store.commit('SET_BREAD',['home'])
       this.$router.push("/login");
     },
     // 全屏事件

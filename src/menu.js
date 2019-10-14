@@ -110,6 +110,39 @@ export const menu = [
       }
     ]
   },
+  //
+  {
+    icon: "el-icon-question",
+    index: "wechatList",
+    title: "wechatList",
+    meta: {
+      roles: ["admin"]
+    }
+  },
+  {
+    icon: "el-icon-question",
+    index: "importLog",
+    title: "importLog",
+    meta: {
+      roles: ["admin"]
+    }
+  },
+  {
+    icon: "el-icon-question",
+    index: "distributionRule",
+    title: "distributionRule",
+    meta: {
+      roles: ["admin"]
+    }
+  },
+  {
+    icon: "el-icon-question",
+    index: "wechatReceive",
+    title: "wechatReceive",
+    meta: {
+      roles: ["normal"]
+    }
+  },
   {
     icon: "el-icon-mobile-phone",
     index: "https://github.com/zhuyihe/vue-admin-project",
