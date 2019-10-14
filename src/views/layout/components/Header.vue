@@ -14,18 +14,18 @@
           </el-tooltip>
         </div>
         <!-- 多语言 -->
-        <select-lang></select-lang>
+        <!-- <select-lang></select-lang> -->
         <!-- 消息中心 -->
-        <div class="btn-bell">
+        <!-- <div class="btn-bell">
           <el-tooltip effect="dark" :content="$t('header.message')" placement="bottom">
             <router-link to="/tabs">
              <i class="el-icon-bell"></i>
              </router-link>
           </el-tooltip>
           <span class="btn-bell-badge" v-if="message"></span>
-        </div>
+        </div> -->
         <!-- 用户名下拉菜单 -->
-        <el-dropdown class="avatar-container" trigger="click">
+        <!-- <el-dropdown class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img
               src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3266090804,66355162&fm=26&gp=0.jpg"
@@ -42,20 +42,20 @@
               <span style="display:block;" @click="logout">{{$t('header.logout')}}</span>
             </el-dropdown-item>
           </el-dropdown-menu>
-        </el-dropdown>
+        </el-dropdown> -->
       </div>
     </div>
   </div>
 </template>
 <script>
 import showAside from "./showAside";
-import selectLang from './selectLang'
+// import selectLang from './selectLang'
 // import breadcrumb from './Breadcrumb'
 export default {
   // name:'header',
   components: {
-    showAside,
-    selectLang
+    showAside
+    // selectLang
     // breadcrumb
   },
   data() {
@@ -81,11 +81,11 @@ export default {
       this.isCollapse = !this.isCollapse;
     },
     // 用户名下拉菜单选择事件
-    logout(command) {
-      this.$store.commit('TAGES_LIST',[])
-      // this.$store.commit('SET_BREAD',['home'])
-      this.$router.push("/login");
-    },
+    // logout(command) {
+    //   this.$store.commit('TAGES_LIST',[])
+    //   // this.$store.commit('SET_BREAD',['home'])
+    //   this.$router.push("/login");
+    // },
     // 全屏事件
     handleFullScreen() {
       let element = document.documentElement;
