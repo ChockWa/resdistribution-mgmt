@@ -25,6 +25,12 @@ const wechat = {
     },
     loginMgmt (params) {
       return post('/user/loginMgmt', params)
+    },
+    sendSmsCode (params) {
+      return post('/user/sendSmsCode', params)
+    },
+    authcheck(){
+      return get('/user/authcheck', params)
     }
   }
 

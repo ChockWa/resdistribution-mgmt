@@ -7,7 +7,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     token: '',
-    roles: []
+    roles: [],
+    account: ""
   },
   // 更改store的状态
   mutations: {
@@ -18,6 +19,14 @@ const store = new Vuex.Store({
     removeToken (state) {
       state.token = ''
       localStorage.removeItem('resToken')
+    },
+    setAccount (state, account) {
+      state.account = account
+      localStorage.setItem('resAccount', account)
+    },
+    removeAccount (state) {
+      state.account = ''
+      localStorage.removeItem('resAccount')
     },
     setRoles (state, roles) {
       state.roles = roles
@@ -36,6 +45,12 @@ const store = new Vuex.Store({
     removeToken(context) {
       context.commit('removeToken')
     },
+    setToken(context, account) {
+      context.commit('setAccount', account)
+    },
+    removeToken(context) {
+      context.commit('removeAccount')
+    },
     setRoles(context, roles) {
       context.commit('setRoles', roles)
     },
@@ -53,6 +68,15 @@ const store = new Vuex.Store({
         }
       }
       return state.token
+    },
+    getAccount(state) {
+      if(!state.account){
+        let account = localStorage.getItem('resAccount')
+        if(account){
+          state.account = account
+        }
+      }
+      return state.account
     },
     getRoles(state) {
       if(!state.roles || state.roles.length  === 0){

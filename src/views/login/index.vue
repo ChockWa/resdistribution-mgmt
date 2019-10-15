@@ -1,5 +1,5 @@
 <template>
-  <div :class="loginStyle">
+  <div :class="loginStyle" v-loading="loading">
     <div class="login-form">
       <div style="font-size:28px;margin-bottom:50px;text-align: center">
         <span>资源发放平台</span>
@@ -10,19 +10,27 @@
           <el-radio v-model="role" label="2">管理员</el-radio>
         </el-form-item>
         <el-form-item v-if="role === '1'">
-          手机号&nbsp;&nbsp;<el-input v-model="model.userPhone" placeholder="手机号" class="input-width"></el-input>
+          手机号&nbsp;&nbsp;
+          <el-input v-model="model.userPhone" placeholder="手机号" class="input-width"></el-input>
         </el-form-item>
         <el-form-item v-if="role === '1'">
           <div style="display: flex;justify-content: ecnter;">
-            验证码&nbsp;&nbsp;<el-input v-model="model.smsCode" style="width:150px;margin-right:5px;" placeholder="短信验证码"></el-input>
-            <el-button size="small" @click="getSmsCode">获取短信验证码</el-button>
+            验证码&nbsp;&nbsp;
+            <el-input
+              v-model="model.smsCode"
+              style="width:150px;margin-right:5px;"
+              placeholder="短信验证码"
+            ></el-input>
+            <el-button size="small" @click="sendSmsCode">获取短信验证码</el-button>
           </div>
         </el-form-item>
         <el-form-item v-if="role === '2'">
-          账号&nbsp;&nbsp;<el-input v-model="model.account" placeholder="账号"></el-input>
+          账号&nbsp;&nbsp;
+          <el-input v-model="model.account" placeholder="账号"></el-input>
         </el-form-item>
         <el-form-item v-if="role === '2'">
-          密码&nbsp;&nbsp;<el-input v-model="model.password" placeholder="密码" type="password"></el-input>
+          密码&nbsp;&nbsp;
+          <el-input v-model="model.password" placeholder="密码" type="password"></el-input>
         </el-form-item>
       </el-form>
       <div style="text-align:center;">
@@ -33,6 +41,7 @@
 </template>
 
 <script>
+import { messages } from "./../../assets/js/common.js";
 export default {
   name: "Login",
   data() {
@@ -43,22 +52,80 @@ export default {
         userPhone: "",
         smsCode: ""
       },
-      role: '1'
+      role: "1",
+      loading: false,
     };
   },
   created() {
-    this.genVerifyCode();
+    this.authcheck();
   },
   methods: {
     login() {
       const _this = this;
-      _this.$api.auth.login(_this.model).then(resp => {
-        if (resp && resp.code === 0) {
-          _this.$store.dispatch("setToken", resp.data.token);
-          _this.$router.push({ path: "/idx" });
-        } else {
-          _this.$message.error(resp.msg);
+      _this.loading = true
+      if (role === "1") {
+        _this.$api.user.login(_this.model).then(resp => {
+          if (resp && resp.code === 0) {
+            _this.$store.dispatch("setToken", resp.data.token);
+            _this.$store.dispatch("setRoles", resp.data.roles);
+            _this.$store.dispatch("setAccount", resp.data.account);
+            _this.$router.push({ path: "/home" });
+          } else {
+            _this.$message.error(resp.msg);
+          }
+          _this.loading = false
+        });
+      } else {
+        _this.$api.user.loginMgmt(_this.model).then(resp => {
+          if (resp && resp.code === 0) {
+            _this.$store.dispatch("setToken", resp.data.token);
+            _this.$store.dispatch("setRoles", resp.data.roles);
+            _this.$store.dispatch("setAccount", resp.data.account);
+            _this.$router.push({ path: "/home" });
+          } else {
+            _this.$message.error(resp.msg);
+          }
+          _this.loading = false
+        });
+      }
+    },
+    sendSmsCode() {
+      const _this = this;
+      if (_this.model.userPhone === "") {
+        messages("error", "手机号不能为空");
+        return;
+      }
+      _this.loading = true
+      _this.$api.user
+        .sendSmsCode({ userPhone: _this.model.userPhone })
+        .then(resp => {
+          if (resp) {
+            if (resp.code === 0) {
+              messages("success", "发送成功");
+            } else {
+              messages("error", resp.msg);
+            }
+          }
+          _this.loading = false
+        });
+    },
+    authcheck() {
+      const _this = this;
+      _this.loading = true
+      _this.$api.user.authcheck({token: _this.$store.getters.getToken()}).then(resp => {
+        if (resp) {
+          if (resp.code === 0) {
+            if (resp.data) {
+              _this.$store.dispatch("setToken", resp.data.token);
+              _this.$store.dispatch("setRoles", resp.data.roles);
+              _this.$store.dispatch("setAccount", resp.data.account);
+              _this.$router.push({ path: "/home" });
+            }
+          } else {
+            _this.$message.error(resp.msg);
+          }
         }
+        _this.loading = false
       });
     },
     loginStyle() {

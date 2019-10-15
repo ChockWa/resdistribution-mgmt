@@ -117,10 +117,10 @@ export function get(url, params) {
  *@param {String} url [请求的url地址]
  *@param {Object} params [请求时候携带的参数]
  */
-export function post(url, params) {
+export function post(url, params, config) {
     return new Promise((resolve, reject) => {
         axios
-            .post(url, params)
+            .post(url, params, config)
             .then(res => {
                 resolve(res);
             })
