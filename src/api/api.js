@@ -29,7 +29,7 @@ const wechat = {
     sendSmsCode (params) {
       return post('/user/sendSmsCode', params)
     },
-    authcheck(){
+    authcheck(params){
       return get('/user/authcheck', params)
     }
   }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import store from '../store'
+import store from '../store'
 import NProgress from 'nprogress' //进度条
 import 'nprogress/nprogress.css'
 Vue.use(Router)
@@ -19,26 +19,6 @@ const myRouter = new Router({
             component: getComponent('login', 'index')
         },
         {
-            path: '/wechatList',
-            name: 'wechatList',
-            component: getComponent('wechat.list', 'index')
-        },
-        {
-            path: '/importLog',
-            name: 'importLog',
-            component: getComponent('import.log', 'index')
-        },
-        {
-            path: '/wechatReceive',
-            name: 'wechatReceive',
-            component: getComponent('wechat.receive', 'index')
-        },
-        {
-            path: '/distributionRule',
-            name: 'distributionRule',
-            component: getComponent('distribution.rule', 'index')
-        },
-        {
             path: '/home',
             component: getComponent('layout', 'Layout'),
             children: [{
@@ -49,111 +29,131 @@ const myRouter = new Router({
                     }
                 },
                 {
-                    path: '/element',
-                    component: getComponent('icons', 'elementIcom'),
-                    meta: {
-                        title: 'element'
-                    }
+                    path: '/wechatList',
+                    name: 'wechatList',
+                    component: getComponent('wechat.list', 'index')
                 },
                 {
-                    path: '/iconfont',
-                    component: getComponent('icons', 'iconfont'),
-                    meta: {
-                        title: 'iconfont'
-                    }
+                    path: '/importLog',
+                    name: 'importLog',
+                    component: getComponent('import.log', 'index')
                 },
                 {
-                    path: '/editor',
-                    component: getComponent('component', 'editor'),
-                    meta: {
-                        title: 'editor'
-                    }
+                    path: '/wechatReceive',
+                    name: 'wechatReceive',
+                    component: getComponent('wechat.receive', 'index')
                 },
                 {
-                    path: '/countTo',
-                    component: getComponent('component', 'countTo'),
-                    meta: {
-                        title: 'countTo'
-                    }
-                },
-                {
-                    path: '/customTree',
-                    component: getComponent('component', 'tree'),
-                    meta: {
-                        title: 'customTree'
-                    }
-                },
-                {
-                    path: '/treeTable',
-                    component: getComponent('component', 'treeTable'),
-                    meta: {
-                        title: 'treeTable'
-                    }
-                },
-                {
-                    path: '/treeSelect',
-                    component: getComponent('component', 'treeSelect'),
-                    meta: {
-                        title: 'treeSelect'
-                    }
-                },
-                {
-                    path: '/draglist',
-                    component: getComponent('draggable', 'draglist'),
-                    meta: {
-                        title: 'draglist'
-                    }
-                },
-                {
-                    path: '/dragtable',
-                    component: getComponent('draggable', 'dragtable'),
-                    meta: {
-                        title: 'dragtable'
-                    }
-                },
-                {
-                    path: '/cricle',
-                    component: getComponent('charts', 'cricle'),
-                    meta: {
-                        title: 'cricle'
-                    }
-                },
-                {
-                    path: '/formDesign',
-                    component: getComponent('formDesign', 'index'),
-                    meta: {
-                        title: 'formDesign'
-                    }
-                },
-                {
-                    path: '/permissionMenu',
-                    component: getComponent('permission', 'permission'),
-                    meta: {
-                        title: 'permissionMenu',
-                        roles: ['admin']
-                    }
-                },
-                {
-                    path: '/permissionBtn',
-                    component: getComponent('permission', 'permissionBtn'),
-                    meta: {
-                        title: 'permissionBtn',
-                    }
-                },
-                {
-                    path: '/404',
-                    component: getComponent('error', '404'),
-                    meta: {
-                        title: '404'
-                    }
-                },
-                {
-                    path: '/403',
-                    component: getComponent('error', '403'),
-                    meta: {
-                        title: '403'
-                    }
+                    path: '/distributionRule',
+                    name: 'distributionRule',
+                    component: getComponent('distribution.rule', 'index')
                 }
+                // {
+                //     path: '/element',
+                //     component: getComponent('icons', 'elementIcom'),
+                //     meta: {
+                //         title: 'element'
+                //     }
+                // },
+                // {
+                //     path: '/iconfont',
+                //     component: getComponent('icons', 'iconfont'),
+                //     meta: {
+                //         title: 'iconfont'
+                //     }
+                // },
+                // {
+                //     path: '/editor',
+                //     component: getComponent('component', 'editor'),
+                //     meta: {
+                //         title: 'editor'
+                //     }
+                // },
+                // {
+                //     path: '/countTo',
+                //     component: getComponent('component', 'countTo'),
+                //     meta: {
+                //         title: 'countTo'
+                //     }
+                // },
+                // {
+                //     path: '/customTree',
+                //     component: getComponent('component', 'tree'),
+                //     meta: {
+                //         title: 'customTree'
+                //     }
+                // },
+                // {
+                //     path: '/treeTable',
+                //     component: getComponent('component', 'treeTable'),
+                //     meta: {
+                //         title: 'treeTable'
+                //     }
+                // },
+                // {
+                //     path: '/treeSelect',
+                //     component: getComponent('component', 'treeSelect'),
+                //     meta: {
+                //         title: 'treeSelect'
+                //     }
+                // },
+                // {
+                //     path: '/draglist',
+                //     component: getComponent('draggable', 'draglist'),
+                //     meta: {
+                //         title: 'draglist'
+                //     }
+                // },
+                // {
+                //     path: '/dragtable',
+                //     component: getComponent('draggable', 'dragtable'),
+                //     meta: {
+                //         title: 'dragtable'
+                //     }
+                // },
+                // {
+                //     path: '/cricle',
+                //     component: getComponent('charts', 'cricle'),
+                //     meta: {
+                //         title: 'cricle'
+                //     }
+                // },
+                // {
+                //     path: '/formDesign',
+                //     component: getComponent('formDesign', 'index'),
+                //     meta: {
+                //         title: 'formDesign'
+                //     }
+                // },
+                // {
+                //     path: '/permissionMenu',
+                //     component: getComponent('permission', 'permission'),
+                //     meta: {
+                //         title: 'permissionMenu',
+                //         roles: ['admin']
+                //     }
+                // },
+                // {
+                //     path: '/permissionBtn',
+                //     component: getComponent('permission', 'permissionBtn'),
+                //     meta: {
+                //         title: 'permissionBtn',
+                //     }
+                // },
+                // {
+                //     path: '/404',
+                //     component: getComponent('error', '404'),
+                //     meta: {
+                //         title: '404'
+                //     }
+                // },
+                // {
+                //     path: '/403',
+                //     component: getComponent('error', '403'),
+                //     meta: {
+                //         title: '403'
+                //     }
+                // }
             ]
         }, {
             path: '*',
@@ -165,17 +165,17 @@ const myRouter = new Router({
 //判断是否存在token
 myRouter.beforeEach((to, from, next) => {
     NProgress.start()
-    // if (to.path !== '/login' && !store.state.token) {
-    //     next('/login')
-    //     NProgress.done() // 结束Progress
-    // } else {
-    //     next();
-    // }
-    // if (to.meta.roles) {
-    //     to.meta.roles.includes(...store.getters.getRoles) ? next() : next('/404')
-    // } else {
-    //     next();
-    // }
+    if (to.path !== '/login' && !store.state.token) {
+        next('/login')
+        NProgress.done() // 结束Progress
+    } else {
+        next();
+    }
+    if (to.meta.roles) {
+        to.meta.roles.includes(...store.getters.getRoles) ? next() : next('/404')
+    } else {
+        next();
+    }
 })
 
 myRouter.afterEach(() => {

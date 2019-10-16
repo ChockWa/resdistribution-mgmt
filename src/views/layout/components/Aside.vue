@@ -72,7 +72,7 @@ export default {
     },
     ...mapState(["isCollapse"]),
     items() {
-      let items = this.filterMenus(menu, this.$store.state.getRoles);
+      let items = this.filterMenus(menu, this.$store.getters.getRoles);
       return items;
     }
   },

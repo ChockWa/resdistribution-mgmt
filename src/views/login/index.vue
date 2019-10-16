@@ -6,31 +6,10 @@
       </div>
       <el-form ref="dataForm" :model="model" size="small">
         <el-form-item>
-          <el-radio v-model="role" label="1">普通用户</el-radio>
-          <el-radio v-model="role" label="2">管理员</el-radio>
+          <el-input v-model="model.account" placeholder="账号" class="input-width"></el-input>
         </el-form-item>
-        <el-form-item v-if="role === '1'">
-          手机号&nbsp;&nbsp;
-          <el-input v-model="model.userPhone" placeholder="手机号" class="input-width"></el-input>
-        </el-form-item>
-        <el-form-item v-if="role === '1'">
-          <div style="display: flex;justify-content: ecnter;">
-            验证码&nbsp;&nbsp;
-            <el-input
-              v-model="model.smsCode"
-              style="width:150px;margin-right:5px;"
-              placeholder="短信验证码"
-            ></el-input>
-            <el-button size="small" @click="sendSmsCode">获取短信验证码</el-button>
-          </div>
-        </el-form-item>
-        <el-form-item v-if="role === '2'">
-          账号&nbsp;&nbsp;
-          <el-input v-model="model.account" placeholder="账号"></el-input>
-        </el-form-item>
-        <el-form-item v-if="role === '2'">
-          密码&nbsp;&nbsp;
-          <el-input v-model="model.password" placeholder="密码" type="password"></el-input>
+        <el-form-item>
+          <el-input v-model="model.password" placeholder="密码" type="password" class="input-width"></el-input>
         </el-form-item>
       </el-form>
       <div style="text-align:center;">
@@ -41,19 +20,15 @@
 </template>
 
 <script>
-import { messages } from "./../../assets/js/common.js";
 export default {
   name: "Login",
   data() {
     return {
       model: {
         account: "",
-        password: "",
-        userPhone: "",
-        smsCode: ""
+        password: ""
       },
-      role: "1",
-      loading: false,
+      loading: false
     };
   },
   created() {
@@ -62,71 +37,67 @@ export default {
   methods: {
     login() {
       const _this = this;
-      _this.loading = true
-      if (role === "1") {
-        _this.$api.user.login(_this.model).then(resp => {
-          if (resp && resp.code === 0) {
-            _this.$store.dispatch("setToken", resp.data.token);
-            _this.$store.dispatch("setRoles", resp.data.roles);
-            _this.$store.dispatch("setAccount", resp.data.account);
-            _this.$router.push({ path: "/home" });
-          } else {
-            _this.$message.error(resp.msg);
-          }
-          _this.loading = false
-        });
-      } else {
-        _this.$api.user.loginMgmt(_this.model).then(resp => {
-          if (resp && resp.code === 0) {
-            _this.$store.dispatch("setToken", resp.data.token);
-            _this.$store.dispatch("setRoles", resp.data.roles);
-            _this.$store.dispatch("setAccount", resp.data.account);
-            _this.$router.push({ path: "/home" });
-          } else {
-            _this.$message.error(resp.msg);
-          }
-          _this.loading = false
-        });
-      }
+      // if(_this.model.account === '' || _this.model.password === ''){
+      //   _this.$message("error","账号密码不能不空")
+      //   return
+      // }
+      // _this.loading = true;
+      // _this.$api.user.loginMgmt(_this.model).then(resp => {
+      //   if (resp && resp.code === 0) {
+      //     _this.$store.dispatch("setToken", resp.data.token);
+      //     _this.$store.dispatch("setRoles", resp.data.roles);
+      //     _this.$store.dispatch("setAccount", resp.data.account);
+      //     _this.$router.push({ path: "/home" });
+      //   } else {
+      //     _this.$message("error",resp.msg);
+      //   }
+      //   _this.loading = false;
+      // });
+      this.$store.dispatch("setToken", "resp.data.tokenaaaaaaaaaaaaaaaa");
+      this.$store.dispatch("setRoles", ["admin"]);
+      this.$store.dispatch("setAccount", "admin");
+      this.$router.push({ path: "/home" });
     },
-    sendSmsCode() {
+    // sendSmsCode() {
+    //   const _this = this;
+    //   if (_this.model.userPhone === "") {
+    //     _this.$message.error("手机号不能为空");
+    //     return;
+    //   }
+    //   _this.loading = true;
+    //   _this.$api.user
+    //     .sendSmsCode({ userPhone: _this.model.userPhone })
+    //     .then(resp => {
+    //       if (resp) {
+    //         if (resp.code === 0) {
+    //           _this.$message.success("发送成功");
+    //         } else {
+    //           _this.$message.error(resp.msg);
+    //         }
+    //       }
+    //       _this.loading = false;
+    //     });
+    // },
+    authcheck() {
       const _this = this;
-      if (_this.model.userPhone === "") {
-        messages("error", "手机号不能为空");
-        return;
-      }
-      _this.loading = true
+      _this.loading = true;
       _this.$api.user
-        .sendSmsCode({ userPhone: _this.model.userPhone })
+        .authcheck({ token: _this.$store.getters.getToken })
         .then(resp => {
           if (resp) {
             if (resp.code === 0) {
-              messages("success", "发送成功");
+              if (resp.data) {
+                _this.$store.dispatch("setToken", resp.data.token);
+                _this.$store.dispatch("setRoles", resp.data.roles);
+                _this.$store.dispatch("setAccount", resp.data.account);
+                _this.$router.push({ path: "/home" });
+              }
             } else {
-              messages("error", resp.msg);
+              _this.$message.error(resp.msg);
             }
           }
-          _this.loading = false
+          _this.loading = false;
         });
-    },
-    authcheck() {
-      const _this = this;
-      _this.loading = true
-      _this.$api.user.authcheck({token: _this.$store.getters.getToken()}).then(resp => {
-        if (resp) {
-          if (resp.code === 0) {
-            if (resp.data) {
-              _this.$store.dispatch("setToken", resp.data.token);
-              _this.$store.dispatch("setRoles", resp.data.roles);
-              _this.$store.dispatch("setAccount", resp.data.account);
-              _this.$router.push({ path: "/home" });
-            }
-          } else {
-            _this.$message.error(resp.msg);
-          }
-        }
-        _this.loading = false
-      });
     },
     loginStyle() {
       const width = document.body.clientWidth;
@@ -137,7 +108,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .login-form {
   position: absolute;
   top: 0;
@@ -149,6 +120,6 @@ export default {
   margin: auto;
 }
 .input-width {
-  width: 200px;
+  width: 250px;
 }
 </style>
